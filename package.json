@@ -10,7 +10,7 @@
     "async": "*",
     "underscore": "*",
     "request": "*",
-    "cheerio": "*",
+    "cheerio": "*"
   },
   "repository": {
     "type": "git",
