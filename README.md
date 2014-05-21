@@ -12,10 +12,8 @@ var scrapper = require('../');
 
 var Source = scrapper.Source;
 var Extractor = scrapper.Extractor;
+var Fn = scrapper.Fn;
 
-function getInt (elem){
-    return parseInt( elem.text().replace(',', '') );
-}
 
 var github = new Source('get', 'https://github.com/explore' );
 var dataSchema = {
@@ -25,7 +23,7 @@ var dataSchema = {
         forks: ':nth-child(1)',
         stars: {
             $rule: ':nth-child(2)',
-            $fn: getInt
+            $fn: Fn.asInt
         }
     }]
 };
@@ -52,6 +50,20 @@ Returns
 ```
 
 #Usage
+
+## Collection Fn
+
+Fn contains some usefull data extraction functions that can be used as $fn.
+available functions:
+    1. text => trimmed text content
+    2. link => href attribute
+    3. data => data-name=value is returned as {name: value}
+    4. classes => class attribute
+    5. asInt => text is parsed as integer. all comas are removed
+    6. asFloat same as asInt but casts to Float.
+## Class Source
+## Class Extractor
+## Class Fetcher
 Documentation is not yet done.
 see source code for undocumented features..
 
