@@ -54,16 +54,28 @@ Returns
 ## Collection Fn
 
 Fn contains some usefull data extraction functions that can be used as $fn.
-available functions:
-    1. text => trimmed text content
-    2. link => href attribute
-    3. data => data-name=value is returned as {name: value}
-    4. classes => class attribute
-    5. asInt => text is parsed as integer. all comas are removed
-    6. asFloat same as asInt but casts to Float.
+
+Available functions:
+
+1. text
+    * trimmed text content
+2. link 
+    * href attribute
+3. data 
+    * data-name=value is returned as {name: value}
+4. classes 
+    * class attribute
+5. asInt 
+    * text is parsed as integer. all comas are removed
+6. asFloat
+    * same as asInt but casts to Float.
+
 ## Class Source
+
 ## Class Extractor
+
 ## Class Fetcher
+
 Documentation is not yet done.
 see source code for undocumented features..
 
