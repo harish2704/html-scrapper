@@ -70,11 +70,38 @@ Available functions:
 6. asFloat
     * same as asInt but casts to Float.
 
+## Class Browser
+A simple Browser class implementation. It uses `request` module for http requests and stores session data in its instance.
+Only `get` method is implemented right now.
+
+## Class Crawler
+A simple web Crawler class. It uses the following libraries
+* [job-manage](https://github.com/harish2704/node-job-manager): It is the backbone of Crawler. JobManager is a asynchronous queue manager library. It is used to automatically collect pageUrls, scrap each pages, manage concurrency and to start, pause and resume the crawling.
+* [BufferedSink](https://github.com/harish2704/node-buffered-sink): Used to write the scraped data.
+
+It need following data to be passed to its constructor.
+
+* `loadPageList`: A function with signature `function( pageLoaderData, cb )`. It is used to collect urls of pages that need to be scraped.
+    * pageLoaderData: A normal Object used to store any arbitrary data by this function.
+    if `bundle.$endReached` is set `true`, then it will stop furthon invocation of loadPageList function.
+    * cb: A callback function with signature`function(err, [ pageData, ... ])`
+* `scrapePage`: A function `function( pageData, cb)`. 
+    * pageData: single item from the collection passed to callback function of loadPageList function.
+    * cb: callback function.
+* `bs`: A BufferedSink instance used to write the data to output medium. See examples/blogspot  for a simple implementation that appends data to a json file
+* `pageListFilter`: An optional function. It it is present, all output from loadPageList function is passed through this function. Even if filtered output is empty we need not to worry about that, Crawler will manage that by repeated calling of loadPageList function until it gets some data or loadPageList function returns an empty result.
+* `onError`: a function `function(err)` called upon error. It will not stop the Crawler.
+* `onFinish`: a function called upon the completion of whole tasks.
+* `concurrency`: no.of parallel requests to processed during scraping.
+
+See the `examples/blogspot/` for an example crawler that scraps whole posts from a blogspot blog and dumps into a json file.
+
 ## Class Source
 
 ## Class Extractor
 
 ## Class Fetcher
+
 
 Documentation is not yet done.
 see source code for undocumented features..
