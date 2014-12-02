@@ -6,11 +6,13 @@
   "scripts": {
     "test": "mocha lib/*.spec.js"
   },
-  "dependencies":{
+  "dependencies": {
     "async": "*",
     "underscore": "*",
     "request": "*",
-    "cheerio": "*"
+    "cheerio": "*",
+    "job-manager": "0.0.4",
+    "buffered-sink": "git://github.com/harish2704/node-buffered-sink"
   },
   "repository": {
     "type": "git",
