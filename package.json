@@ -1,6 +1,6 @@
 {
   "name": "html-scrapper",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A general purpose scrapper written using cheerio, request, async etc. It can scrap data from html pages based on some schema defnition. A schema denition includes a css selector and a function that accepts this element and  returns the data. It is simple as that.",
   "main": "index.js",
   "scripts": {
