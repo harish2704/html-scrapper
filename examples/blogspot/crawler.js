@@ -10,6 +10,7 @@ var util = require('util');
 var fs = require('fs');
 var BufferedSink = require('buffered-sink');
 var _ = require('lodash');
+var L = require('debug')('Crawler');
 
 
 var Source = scrapper.Source;
@@ -31,16 +32,31 @@ var ePost = new Extractor({
     body: 'div[itemprop="articleBody"]'
 });
 
+var headers = {
+    // 'Accept'          : 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    // 'Accept-Encoding' : 'gzip,deflate,sdch',
+    'Accept-Language' : 'en-US,en;q=0.8',
+    // 'Cache-Control'   : 'no-cache',
+    // 'Connection'      : 'keep-alive',
+    // 'Pragma'          : 'no-cache',
+    'User-Agent'      : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/37.0.2062.120 Chrome/37.0.2062.120 Safari/537.36',
+};
+var b = new Browser( { headers: headers });
 
 var indexPageUrl = 'http://yogavasishtamnithyaparayanam.blogspot.ca/';
 var urlFormat = 'http://yogavasishtamnithyaparayanam.blogspot.ca/?action=getTitles&widgetId=BlogArchive1&widgetType=BlogArchive&responseType=js&path=%s';
-var b = new Browser();
-var loadPageList = function( bundle, cb ){
-    console.log( 'loadPageList' );
+var loadPageList = function( args, cb ){
+    if( this.scratchPad === undefined ){
+        this.scratchPad = {};
+    }
+    var bundle = this.scratchPad;
+    var self = this;
     async.waterfall([
             function( cb ){
                 if ( !bundle.totalMonths ){
+                    L('Getting indexPage', indexPageUrl );
                     return b.get( indexPageUrl, function(err, res, html ){
+                        L('Got indexPage');
                         if(err) { return cb(err); }
                         bundle.totalMonths = ePosts.extract( html ).monthUrls;
                         return cb( );
@@ -54,15 +70,18 @@ var loadPageList = function( bundle, cb ){
                 }
                 var toBeProcessed = bundle.totalMonths[bundle.firstUnprocessed];
                 var url = util.format( urlFormat, querystring.escape( toBeProcessed ) );
+                L('Getting page', url );
                 return b.get( url, cb );
             },
             function( res, script, cb ){
+                L('Got page', res.request.uri.href );
                 var data;
                 global._WidgetManager = { _HandleControllerResult: function(a,b,c){ data = c; } };
                 var f = new Function( script );
                 f();
                 ++bundle.firstUnprocessed;
-                bundle.$endReached = bundle.totalMonths.length === bundle.firstUnprocessed;
+                self.$endReached = bundle.totalMonths.length === bundle.firstUnprocessed;
+                L('Got ', data.posts.length, ' Items');
                 return cb( null, data.posts );
             }
             ], cb );
@@ -70,7 +89,7 @@ var loadPageList = function( bundle, cb ){
 
 var scrapePage = function( item, cb ){
     var url = item.url;
-    console.log( 'scrapePage', item );
+    L( 'scrapePage', item );
     async.waterfall([
             function(cb){
                 return b.get(url, cb );
@@ -116,14 +135,16 @@ var pageListFilter = function( items, cb){
 };
 
 var crawler = new Crawler({
-    concurrency: 10,
+    concurrency: 9,
     loadPageList: loadPageList,
     scrapePage: scrapePage,
     bs: bs,
     pageListFilter: pageListFilter,
-    onError: function(){ console.log('Error occurred', arguments ); },
-    onFinish: function(){ console.log('Finished', arguments ); }
+    onError: function(){ L('Error occurred', arguments ); },
 });
-crawler.start();
+
+crawler.scrap( null, function(err){
+    L( 'Finished Success: ', Boolean(err) );
+});
 
 
