@@ -51,7 +51,7 @@ Returns
 
 #Usage
 
-## Collection Fn
+## [ Collection Fn ](http://harish2704.github.io/html-scrapper-doc/master/Fn.html)
 
 Fn contains some usefull data extraction functions that can be used as $fn.
 
@@ -70,11 +70,11 @@ Available functions:
 6. asFloat
     * same as asInt but casts to Float.
 
-## Class Browser
+## [ Class Browser ](http://harish2704.github.io/html-scrapper-doc/master/Browser.html)
 A simple Browser class implementation. It uses `request` module for http requests and stores session data in its instance.
 Only `get` method is implemented right now.
 
-## Class Crawler
+## [ Class Crawler ](http://harish2704.github.io/html-scrapper-doc/master/Crawler.html)
 A simple web Crawler class. It uses the following libraries
 * [job-manage](https://github.com/harish2704/node-job-manager): It is the backbone of Crawler. JobManager is a asynchronous queue manager library. It is used to automatically collect pageUrls, scrap each pages, manage concurrency and to start, pause and resume the crawling.
 * [BufferedSink](https://github.com/harish2704/node-buffered-sink): Used to write the scraped data.
@@ -97,10 +97,13 @@ It need following data to be passed to its constructor.
 See the `examples/blogspot/` for an example crawler that scraps whole posts from a blogspot blog and dumps into a json file.
 
 ## Class Source
+  Depreciated.
+  Browser class which is more simple ( and of course feature less ) instead.
+  We should extend Browser to meet our custom use
 
-## Class Extractor
+## [Class Extractor](http://harish2704.github.io/html-scrapper-doc/master/Extractor.html)
 
 
-Documentation is not yet done.
+Documentation is not yet complete
 see source code for undocumented features..
 
