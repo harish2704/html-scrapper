@@ -1,0 +1,14 @@
+{
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": ["jsdoc","closure"]
+    },
+    "source": {
+      "include": [ "lib", "index.js"],
+      "excludePattern": ".*.spec.js"
+    },
+    "plugins": ["plugins/markdown"],
+    "markdown":{
+      "tags": ["example"]
+    }
+}
