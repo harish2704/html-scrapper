@@ -1,5 +1,5 @@
 /*jslint node: true, stupid: true*/
-/*global describe, it */
+
 
 
 
@@ -33,13 +33,15 @@ var ePost = new Extractor({
 });
 
 var headers = {
-    // 'Accept'          : 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    'Accept'             : 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    Host                 : "yogavasishtamnithyaparayanam.blogspot.ca",
     // 'Accept-Encoding' : 'gzip,deflate,sdch',
-    'Accept-Language' : 'en-US,en;q=0.8',
-    // 'Cache-Control'   : 'no-cache',
-    // 'Connection'      : 'keep-alive',
+    'Accept-Language'    : 'en-US,en;q=0.8',
+    'Cache-Control'      : 'no-cache',
+    'Connection'         : 'keep-alive',
+    'If-Modified-Since'  : 'Tue, 20 Jan 2015 01                                                                                                                     : 57 : 22 GMT',
     // 'Pragma'          : 'no-cache',
-    'User-Agent'      : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/37.0.2062.120 Chrome/37.0.2062.120 Safari/537.36',
+    'User-Agent'         : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/43.0.2357.81 Chrome/43.0.2357.81 Safari/537.36',
 };
 var b = new Browser( { headers: headers });
 
@@ -56,7 +58,7 @@ var loadPageList = function( args, cb ){
                 if ( !bundle.totalMonths ){
                     L('Getting indexPage', indexPageUrl );
                     return b.get( indexPageUrl, function(err, res, html ){
-                        L('Got indexPage');
+                        L('Got indexPage' );
                         if(err) { return cb(err); }
                         bundle.totalMonths = ePosts.extract( html ).monthUrls;
                         return cb( );
@@ -98,7 +100,7 @@ var scrapePage = function( item, cb ){
                 var data = ePost.extract( html );
                 data.url = url;
                 data.urlTitle = url.title;
-                data.html = html;
+                //~ data.html = html;
                 return cb( null, data );
             }
             ], cb );
@@ -138,7 +140,7 @@ var crawler = new Crawler({
     concurrency: 9,
     loadPageList: loadPageList,
     scrapePage: scrapePage,
-    bs: bs,
+    sink: bs,
     pageListFilter: pageListFilter,
     onError: function(){ L('Error occurred', arguments ); },
 });

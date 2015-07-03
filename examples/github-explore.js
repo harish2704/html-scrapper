@@ -1,4 +1,4 @@
-var scrapper = require('../');
+var scrapper = require('html-scrapper');
 
 var Source = scrapper.Source;
 var Extractor = scrapper.Extractor;
