@@ -100,8 +100,6 @@ See the `examples/blogspot/` for an example crawler that scraps whole posts from
 
 ## Class Extractor
 
-## Class Fetcher
-
 
 Documentation is not yet done.
 see source code for undocumented features..
